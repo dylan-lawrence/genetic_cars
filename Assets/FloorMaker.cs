@@ -4,6 +4,7 @@ using System.Collections;
 public class FloorMaker : MonoBehaviour {
 	
 	public GameObject floor_piece;
+	public float difficulty;
 	
 	private Vector2 prev = Vector2.zero;
 	private Vector2 curr = Vector2.zero;
@@ -35,7 +36,7 @@ public class FloorMaker : MonoBehaviour {
 			count++;
 		}
 		else if (count >= 20 && count < 250) {
-			float vert_offset = Random.Range(-1.0f,1.0f);
+			float vert_offset = Random.Range(-1.0f * difficulty,1.0f * difficulty);
 			
 			curr = prev + new Vector2(1,vert_offset);
 			curr.y = Mathf.Clamp (curr.y, -8, 8);
