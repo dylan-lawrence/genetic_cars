@@ -17,7 +17,24 @@ public class FloorMaker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (count < 250) {
+		if (count < 20) {
+			curr = prev + Vector2.right;
+			GameObject curr_piece = (GameObject) Instantiate(floor_piece, Vector2.zero, Quaternion.identity);
+			curr_piece.transform.parent = gameObject.transform;
+			
+			PolygonCollider2D curr_poly = curr_piece.GetComponent<PolygonCollider2D>();
+			curr_poly.points = new Vector2[] {prev, curr, curr + Vector2.up, prev + Vector2.up};
+			
+			LineRenderer curr_line = curr_piece.GetComponent<LineRenderer>();
+			curr_line.SetVertexCount(5);
+			for (int i=0; i<5; i++)
+				curr_line.SetPosition(i, curr_poly.points[i%4]);
+			
+			prev = curr;
+			
+			count++;
+		}
+		else if (count >= 20 && count < 250) {
 			float vert_offset = Random.Range(-1.0f,1.0f);
 			
 			curr = prev + new Vector2(1,vert_offset);
