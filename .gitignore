@@ -19,6 +19,7 @@ sysinfo.txt
 #Ignore Plugins for Editor
 /Assets/Plugins
 /Assets/NGUI
+/Assets/Vectrosity
 
 #Ignore Builds
 /Builds

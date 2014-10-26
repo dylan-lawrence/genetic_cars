@@ -26,11 +26,6 @@ public class FloorMaker : MonoBehaviour {
 			PolygonCollider2D curr_poly = curr_piece.GetComponent<PolygonCollider2D>();
 			curr_poly.points = new Vector2[] {prev, curr, curr + Vector2.up, prev + Vector2.up};
 			
-			LineRenderer curr_line = curr_piece.GetComponent<LineRenderer>();
-			curr_line.SetVertexCount(5);
-			for (int i=0; i<5; i++)
-				curr_line.SetPosition(i, curr_poly.points[i%4]);
-			
 			prev = curr;
 			
 			count++;
@@ -46,11 +41,6 @@ public class FloorMaker : MonoBehaviour {
 			
 			PolygonCollider2D curr_poly = curr_piece.GetComponent<PolygonCollider2D>();
 			curr_poly.points = new Vector2[] {prev, curr, curr + Vector2.up, prev + Vector2.up};
-			
-			LineRenderer curr_line = curr_piece.GetComponent<LineRenderer>();
-			curr_line.SetVertexCount(5);
-			for (int i=0; i<5; i++)
-				curr_line.SetPosition(i, curr_poly.points[i%4]);
 			
 			prev = curr;
 			
