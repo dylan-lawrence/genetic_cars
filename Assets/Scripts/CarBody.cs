@@ -60,10 +60,10 @@ public class CarBody : MonoBehaviour {
 		return output;
 	}
 
-	public static Vector2[] RandomPolygon(int verts, float scale = 1.0f) {
+	public static Vector2[] RandomPolygon(int verts, float scale_x = 1.0f, float scale_y = 1.0f) {
 		Vector2[] points = new Vector2[verts];
 		for (int i = 0; i<verts; i++) {
-			points[i] = new Vector2(Random.Range (-scale, scale), Random.Range (-scale, scale));
+			points[i] = new Vector2(Random.Range (-scale_x, scale_x), Random.Range (-scale_y, scale_y));
 		}
 
 		return CircleSort (points);
