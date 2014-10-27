@@ -5,6 +5,7 @@ using Vectrosity;
 public class FloorMake : MonoBehaviour {
 
 	public float difficulty;
+	public PhysicsMaterial2D mat;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,8 @@ public class FloorMake : MonoBehaviour {
 
 		myline.MakeSpline(points);
 		myline.SetColor (Color.red);
-
+		
+		myline.physicsMaterial = mat;
 		myline.collider = true;
 		myline.Draw3D ();
 	}

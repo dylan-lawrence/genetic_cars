@@ -96,7 +96,7 @@ public class CarBody : MonoBehaviour {
 
 		myline.MakeSpline (points3, points.Length, true);
 
-		myline.SetColor (Color.yellow);
+		myline.SetColor (Color.blue);
 		myline.drawTransform = transform;
 		myline.Draw3D ();
 
@@ -107,9 +107,9 @@ public class CarBody : MonoBehaviour {
 			p2[i+1] = points[i/2];
 		}
 
-		polyline = new VectorLine ("BodyLines", p2, null, 2.0f, LineType.Discrete, Joins.Weld);
+		polyline = new VectorLine ("BodyLines", p2, null, 1.0f, LineType.Discrete, Joins.Weld);
 
-		polyline.SetColor (Color.yellow);
+		polyline.SetColor (Color.blue);
 		polyline.drawTransform = transform;
 		polyline.Draw3D ();
 

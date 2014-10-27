@@ -32,9 +32,9 @@ public class DrawWheel : MonoBehaviour {
 
 		Vector3[] p = new Vector3[100];
 		myline = new VectorLine("Wheel", p, null, 2.0f, LineType.Continuous, Joins.Weld);
-		myline.MakeCircle(transform.localPosition, radius);
+		myline.MakeCircle(Vector3.zero, radius);
 		myline.SetColor (Color.black);
-		myline.drawTransform = transform.parent;
+		myline.drawTransform = transform;
 		myline.Draw3D ();
 
 		Vector3[] p2 = new Vector3[8];
