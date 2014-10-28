@@ -17,9 +17,12 @@ The Genome we will be using consists of four *nucleotides* that are then mapped 
 
 We consider a *gene* to be a sequence of four letters **i.e. ATTC** This gene is converted first to a sequence of numbers and then to a final number.
 
-ATTC -> 0112 -> [0 * 4^3 + 1 * 4^2 + 1 * 4^1 + 2 * 4^0] -> [0 + 16 + 4 + 2] -> 22  
+**ATTC -> 0112 -> [0 x 4<sup>3</sup> + 1 x 4<sup>2</sup> + 1 x 4<sup>1</sup> + 2 x 4<sup>0</sup>] -> [0 + 16 + 4 + 2] -> 22  **
 
 Genes rage in values from AAAA to GGGG or 0 to 255. This gives us an easy way to use genes inside of the car without too much overhead.
 
+#####Genome Specification
+**TODO**
+
 ##### Licensing
-All code is available for reading but may not be reproduced, copied, or used without explicit permission. For permission please contact Dylan Lawrence -- dlawre14 (at) slu (dot) edu
+All code is available for reading but may not be reproduced, copied, or used without explicit permission. For permission please contact Dylan Lawrence -- dlawre14@slu.edu
