@@ -10,10 +10,10 @@ The wheels are centered on two vertices. Due to randomized gene the wheels could
 
 ##### Genome Basics
 The Genome we will be using consists of four *nucleotides* that are then mapped to numbers and converted. These mappings are
-*A -> 0
-*T -> 1
-*C -> 2
-*G -> 3
+* A -> 0
+* T -> 1
+* C -> 2
+* G -> 3
 
 We consider a *gene* to be a sequence of four letters **i.e. ATTC** This gene is converted first to a sequence of numbers and then to a final number.
 
