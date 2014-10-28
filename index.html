@@ -37,36 +37,83 @@
         </div>
         <article class="markdown-body">
           <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a name="genetic-cars" class="anchor" href="#genetic-cars"><span class="octicon octicon-link"></span></a>Genetic Cars</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h5>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h5>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>Inspired by other Genetic Cars simulations and showcases of Genetic Algorithms I am attempting to create my own Genetic Cars sim.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h5>
+<a name="car-design" class="anchor" href="#car-design"><span class="octicon octicon-link"></span></a>Car Design</h5>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>The cars themselves are designed very simply with a body and two wheels. Each car has a body in the shape of a polygon consisting of six vertices. The points are parsed and organized in such a way as to ensure the shape has no internal intersections.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>The wheels are centered on two vertices. Due to randomized gene the wheels could theoretically be placed on the same vertex.</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h5>
+<a name="genome-basics" class="anchor" href="#genome-basics"><span class="octicon octicon-link"></span></a>Genome Basics</h5>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>The Genome we will be using consists of four <em>nucleotides</em> that are then mapped to numbers and converted. These mappings are</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li>A -&gt; 0</li>
+<li>T -&gt; 1</li>
+<li>C -&gt; 2</li>
+<li>G -&gt; 3</li>
+</ul>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>We consider a <em>gene</em> to be a sequence of four letters <strong>i.e. ATTC</strong> This gene is converted first to a sequence of numbers and then to a final number.</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p><b> ATTC -&gt; 0112 -&gt; [0 x 4<sup>3</sup> + 1 x 4<sup>2</sup> + 1 x 4<sup>1</sup> + 2 x 4<sup>0</sup>] -&gt; [0 + 16 + 4 + 2] -&gt; 22 </b></p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Genes rage in values from AAAA to GGGG or 0 to 255. This gives us an easy way to use genes inside of the car without too much overhead.</p>
+
+<h5>
+<a name="genome-specification" class="anchor" href="#genome-specification"><span class="octicon octicon-link"></span></a>Genome Specification</h5>
+
+<p>The genome is specified in terms of genes as discussed above. This is facilitated with a Genome object that is able to index each gene. We will call these indices <em>loci</em>.</p>
+
+<p>The first twelve loci (indices 0 - 11) specify the six coordinates of the the car polygon shape. These are reordered based on the specified CircleSort algorithm.</p>
+
+<p>Following this the wheels are specifief. Loci 12 (assuming starting count at 0) specifies which polygon point to place the first wheel. Loci 13 specifies this wheels radius. Locis 14 and 15 then specify the second wheel.</p>
+
+<p><strong>The Following Are Examples of Generated Cars</strong></p>
+
+<p><img src="Images/car1.png" alt="car1"><br>
+<img src="Images/car2.png" alt="car2"><br>
+<img src="Images/car3.png" alt="car3"></p>
+
+<p><strong>Planned</strong></p>
+
+<ul>
+<li>Modification of car mass</li>
+<li>Modification of wheel mass</li>
+<li>Modification of wheel suspension ratio</li>
+<li>Modification of wheel suspension oscillation frequency</li>
+<li>Modification of wheel physical material</li>
+<li>Modification of wheel power</li>
+</ul>
+
+<h5>
+<a name="other-planned-features" class="anchor" href="#other-planned-features"><span class="octicon octicon-link"></span></a>Other Planned Features</h5>
+
+<ul>
+<li>Implementation of coloring of cars to denote lineage</li>
+<li>Implementation of multiple cars at a time</li>
+<li>Implementation of gene recombination</li>
+<li>Implementation of base mutation</li>
+<li>Implementation of roulette selection for gene recombination</li>
+<li>Implementation of stochastic selection for gene recombination</li>
+<li>Implementation of tournament selection for gene recombination</li>
+<li>Imlementation of reward-based selection for gene recombination</li>
+<li>Implementation of elite <strong>n</strong> cars from each generation</li>
+</ul>
+
+<h5>
+<a name="licensing" class="anchor" href="#licensing"><span class="octicon octicon-link"></span></a>Licensing</h5>
+
+<p>All code is available for reading but may not be reproduced, copied, or used without explicit permission. For permission please contact Dylan Lawrence -- <a href="mailto:dlawre14@slu.edu">dlawre14@slu.edu</a></p>
         </article>
       </div>
     </div>
