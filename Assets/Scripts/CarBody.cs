@@ -88,9 +88,6 @@ public class CarBody : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Collider Portion
-		GetComponent<PolygonCollider2D> ().points = RandomPolygon (6);
-		
 		//Drawing Portion
 		Vector2[] points = GetComponent<PolygonCollider2D> ().points;
 

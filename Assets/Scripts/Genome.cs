@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Genome : MonoBehaviour {
+public class Genome {
 	
 	public static string[] Nucleotides = new string[4] {"A","T","C","G"};
 	public static Dictionary<string, string> GeneToNum = new Dictionary<string, string> { {"A", "0"}, {"T", "1"}, {"C", "2"}, {"G", "3"} };
@@ -10,15 +10,6 @@ public class Genome : MonoBehaviour {
 	public bool debug = false;
 		
 	private string _genome;
-	
-	public string genome {
-		get {
-			return _genome;
-		}
-		set {
-			_genome = value;
-		}
-	}
 	
 	public static int BaseFourConverter (string num) {
 		int value = 0;
@@ -32,8 +23,7 @@ public class Genome : MonoBehaviour {
 		string nums = "";
 		for (int i = 0; i<gene.Length; i++)
 			nums += GeneToNum[gene.Substring(i, 1)];
-			
-		Debug.Log (nums);
+
 		return BaseFourConverter(nums);
 	}
 	
@@ -42,6 +32,8 @@ public class Genome : MonoBehaviour {
 	}
 	
 	public void GenerateGenome(int length) {
+		if (length % 4 != 0)
+			throw new System.Exception ("Genome length must be divisble by 4!");
 		_genome = "";
 		for (int i = 0; i<length; i++)
 			_genome += RandomNucleotide();
@@ -58,7 +50,25 @@ public class Genome : MonoBehaviour {
 				_genome += g[i];
 		}
 	}
-	
+
+	public string this[int i] {
+		get { return _genome.Substring (i, 4); }
+		set { 
+			string temp = "";
+			for (int il = 0; il < _genome.Length/4; il++) {
+				if (il == i)
+					temp += value;
+				else
+					temp += this[il];
+			}
+			_genome = temp;
+		}
+	}
+
+	public string ToString() {
+		return _genome;
+	}
+
 	//-- Consider Start to Exist only for debugging
 	void Start() {
 		if (debug) {
