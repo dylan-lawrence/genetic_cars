@@ -68,12 +68,29 @@ public class CarBody : MonoBehaviour {
 
 		return CircleSort (points);
 	}
+	
+	public static Vector2[] PolyFromGenome (string genome) {
+		Vector2[] points = new Vector2[genome.Length/8];
+		
+		Debug.Log (genome);
+		Debug.Log (genome.Length);
+		
+		for (int i = 0; i<genome.Length/4; i+=2) {
+			string x_gene = genome.Substring(i*4, 4);
+			string y_gene = genome.Substring((i+1)*4, 4);
+			
+			Debug.Log ("x_gene is: " + x_gene);
+			Debug.Log ("y_gene is: " + y_gene);
+		}
+		
+		return points;
+	}
 
 	// Use this for initialization
 	void Start () {
 		//Collider Portion
 		GetComponent<PolygonCollider2D> ().points = RandomPolygon (6);
-
+		
 		//Drawing Portion
 		Vector2[] points = GetComponent<PolygonCollider2D> ().points;
 
