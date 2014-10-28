@@ -7,7 +7,12 @@ public class DrawWheel : MonoBehaviour {
 	VectorLine myline;	
 	VectorLine spokes;
 	bool drawn = false;
-	
+
+	public void SetColor (Color c) {
+		myline.SetColor (c);
+		spokes.SetColor (c);
+	}
+
 	// Use this for initialization
 	void Start () {
 		StartCoroutine (Draw());

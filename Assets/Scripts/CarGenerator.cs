@@ -61,7 +61,7 @@ public class CarGenerator : MonoBehaviour {
 	}
 
 	IEnumerator BeginPhys() {
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.25f);
 		body.rigidbody2D.isKinematic = false;
 	}
 }

@@ -15,7 +15,7 @@ public class FloorMake : MonoBehaviour {
 		Vector3[] points = new Vector3[500];
 		Vector3 prev = Vector3.zero;
 		for (int i = 0; i<500; i++) {
-		  if (i < 50)
+		  if (i < 20)
 		  	prev += new Vector3(1, 0, 0);
 		  else
 		    prev += new Vector3(1, Random.Range(-difficulty, difficulty), 0);
