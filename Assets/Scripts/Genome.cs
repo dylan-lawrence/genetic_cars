@@ -69,6 +69,14 @@ public class Genome {
 		return _genome;
 	}
 
+	public void GeneTrade (Genome other) {
+		int index1 = Random.Range(0, _genome.Length/4);
+		int index2 = Random.Range(0, _genome.Length/4);
+		string temp = (string) this [index1].Clone();
+		this [index1] = (string) other [index2].Clone ();
+		other [index2] = temp;
+	}
+
 	//-- Consider Start to Exist only for debugging
 	void Start() {
 		if (debug) {

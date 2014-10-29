@@ -18,7 +18,22 @@ public class Manager : MonoBehaviour {
 	private bool color_set = false;
 
 	void MakeNewGeneration() {
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag ("Car"))
+			Destroy (g);
 
+		genomes [0].GeneTrade (genomes [1]);
+
+		for (int i = 0; i<number_of_cars; i++) {
+			cars.Add ((GameObject) Instantiate (car, new Vector3(2,2,0), Quaternion.identity));
+			cars[i].name = "Car " + i;
+		}
+		
+		for (int i = 0; i<number_of_cars; i++) {
+			genomes[i] = new Genome();
+			genomes[i].GenerateGenome(64);
+			cars[i].GetComponent<CarGenerator>().Generate(genomes[i]);
+		}
+		color_set = false;
 	}
 
 	// Use this for initialization
@@ -48,23 +63,29 @@ public class Manager : MonoBehaviour {
 		}
 
 		if (cars.Count == 0) {
-						MakeNewGeneration ();
-				} else {
-						cars.RemoveAll (Alive);
+			int count = VectorLine.canvas3D.transform.childCount;
+			for (int i = 0; i < count; i++) {
+				if (!VectorLine.canvas3D.transform.GetChild (i).gameObject.activeSelf)
+					Destroy (VectorLine.canvas3D.transform.GetChild (i).gameObject);
+			}
+			MakeNewGeneration ();
+		} else {
+			cars.RemoveAll (Alive);
 
-						int count = VectorLine.canvas3D.transform.childCount;
-						for (int i = 0; i < count; i++) {
-								if (!VectorLine.canvas3D.transform.GetChild (i).gameObject.activeSelf)
-										Destroy (VectorLine.canvas3D.transform.GetChild (i).gameObject);
-						}
-
-						furthest = cars [0];
-						for (int i = 1; i < cars.Count; i++) {
-								if (cars [i].GetComponentInChildren<CarBody> ().IsAlive () && furthest.transform.GetChild (0).position.x < cars [i].transform.GetChild (0).position.x)
-										furthest = cars [i];
-						}
-						follow.target = furthest.transform.GetChild (0).gameObject;
-				}
+			int count = VectorLine.canvas3D.transform.childCount;
+			for (int i = 0; i < count; i++) {
+					if (!VectorLine.canvas3D.transform.GetChild (i).gameObject.activeSelf)
+							Destroy (VectorLine.canvas3D.transform.GetChild (i).gameObject);
+			}
+			if (cars.Count > 0)
+			  furthest = cars [0];
+			for (int i = 1; i < cars.Count; i++) {
+					if (cars [i].GetComponentInChildren<CarBody> ().IsAlive () && furthest.transform.GetChild (0).position.x < cars [i].transform.GetChild (0).position.x)
+							furthest = cars [i];
+			}
+            if (cars.Count > 0)
+			  follow.target = furthest.transform.GetChild (0).gameObject;
+		}
 	}
 	
 	private static bool Alive (GameObject g) {
