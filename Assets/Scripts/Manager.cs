@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Vectrosity;
@@ -29,10 +30,9 @@ public class Manager : MonoBehaviour {
 		}
 		
 		for (int i = 0; i<number_of_cars; i++) {
-			genomes[i] = new Genome();
-			genomes[i].GenerateGenome(64);
 			cars[i].GetComponent<CarGenerator>().Generate(genomes[i]);
 		}
+		
 		color_set = false;
 	}
 
@@ -89,6 +89,8 @@ public class Manager : MonoBehaviour {
             if (cars.Count > 0)
 			  follow.target = furthest.transform.GetChild (0).gameObject;
 		}
+		
+		GameObject.Find ("Text").GetComponent<Text>().text = genomes[0].ToString() + "\n" + genomes[1].ToString ();
 	}
 	
 	private static bool Alive (GameObject g) {
