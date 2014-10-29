@@ -13,9 +13,9 @@ public class FloorMake : MonoBehaviour {
 		VectorLine myline = new VectorLine("Floor", p, null, 5.0f, LineType.Continuous, Joins.Weld);
 
 		Vector3[] points = new Vector3[500];
-		Vector3 prev = Vector3.zero;
+		Vector3 prev = new Vector3(-10,0,0);
 		for (int i = 0; i<500; i++) {
-		  if (i < 10)
+		  if (i < 20)
 		  	prev += new Vector3(1, 0, 0);
 		  else
 		    prev += new Vector3(1, Random.Range(-difficulty, difficulty), 0);
