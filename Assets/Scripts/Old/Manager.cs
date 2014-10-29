@@ -17,7 +17,6 @@ public class Manager : MonoBehaviour {
 	private GameObject furthest;
 	
 	private bool can_make_new = true;
-	private bool color_set = false;
 
 	void MakeNewGeneration() {
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag ("Car"))
@@ -35,7 +34,6 @@ public class Manager : MonoBehaviour {
 		}
 		
 		can_make_new = true;
-		color_set = false;
 	}
 
 	// Use this for initialization
@@ -56,17 +54,6 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (!color_set) {
-			for (int i = 0; i<number_of_cars; i++) {
-				Debug.Log ("Setting car color...");
-				cars [i].GetComponentInChildren<CarBody> ().SetColor (car_colors [i]);
-				DrawWheel[] w = cars [i].GetComponentsInChildren<DrawWheel> ();
-				w[0].SetColor(Color.gray);
-				w[1].SetColor(new Color(0.85f,0.85f,0.85f));
-			}
-			color_set = true;
-		}
-
 		if (cars.Count == 0 && can_make_new) {
 			can_make_new = false;
 			int count = VectorLine.canvas3D.transform.childCount;
