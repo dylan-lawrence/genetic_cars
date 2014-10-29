@@ -58,6 +58,9 @@ public class Manager : MonoBehaviour {
 			for (int i = 0; i<number_of_cars; i++) {
 				Debug.Log ("Setting car color...");
 				cars [i].GetComponentInChildren<CarBody> ().SetColor (car_colors [i]);
+				DrawWheel[] w = cars [i].GetComponentsInChildren<DrawWheel> ();
+				w[0].SetColor(Color.gray);
+				w[1].SetColor(new Color(0.85f,0.85f,0.85f));
 			}
 			color_set = true;
 		}

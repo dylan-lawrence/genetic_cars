@@ -7,6 +7,7 @@ public class CarBody : MonoBehaviour {
 	VectorLine myline;
 	VectorLine polyline;
 	
+	public int line_thickness;
 	public bool finished = false;
 	private bool killable = false;
 	private bool killed = false;
@@ -115,7 +116,7 @@ public class CarBody : MonoBehaviour {
 			points3 [i] = (Vector3)points [i];
 
 		Vector3[] p = new Vector3[points.Length + 1];
-		myline = new VectorLine ("CarBody", p, null, 2.0f, LineType.Continuous, Joins.Weld);
+		myline = new VectorLine ("CarBody", p, null, line_thickness, LineType.Continuous, Joins.Weld);
 
 		myline.MakeSpline (points3, points.Length, true);
 
@@ -130,7 +131,7 @@ public class CarBody : MonoBehaviour {
 			p2[i+1] = points[i/2];
 		}
 
-		polyline = new VectorLine ("BodyLines", p2, null, 1.0f, LineType.Discrete, Joins.Weld);
+		polyline = new VectorLine ("BodyLines", p2, null, line_thickness/2.0f, LineType.Discrete, Joins.Weld);
 
 		polyline.SetColor (Color.blue);
 		polyline.drawTransform = transform;
