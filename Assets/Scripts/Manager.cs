@@ -15,7 +15,8 @@ public class Manager : MonoBehaviour {
 	private Genome[] genomes;
 	private List<GameObject> cars = new List<GameObject>();
 	private GameObject furthest;
-
+	
+	private bool can_make_new = true;
 	private bool color_set = false;
 
 	void MakeNewGeneration() {
@@ -33,6 +34,7 @@ public class Manager : MonoBehaviour {
 			cars[i].GetComponent<CarGenerator>().Generate(genomes[i]);
 		}
 		
+		can_make_new = true;
 		color_set = false;
 	}
 
@@ -65,7 +67,8 @@ public class Manager : MonoBehaviour {
 			color_set = true;
 		}
 
-		if (cars.Count == 0) {
+		if (cars.Count == 0 && can_make_new) {
+			can_make_new = false;
 			int count = VectorLine.canvas3D.transform.childCount;
 			for (int i = 0; i < count; i++) {
 				if (!VectorLine.canvas3D.transform.GetChild (i).gameObject.activeSelf)
