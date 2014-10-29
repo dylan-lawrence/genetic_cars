@@ -6,7 +6,9 @@ public class CarBody : MonoBehaviour {
 
 	VectorLine myline;
 	VectorLine polyline;
-
+	
+	public bool finished = false;
+	
 	private static bool Less (Vector2 a, Vector2 b, Vector2 center) {
 		if (a.x - center.x >= 0 && b.x - center.x <= 0)
 			return true;
@@ -128,6 +130,8 @@ public class CarBody : MonoBehaviour {
 		polyline.Draw3D ();
 
 		GetComponent<Rigidbody2D> ().centerOfMass = center;
+		
+		finished = true;
 	}
 
 	// Update is called once per frame

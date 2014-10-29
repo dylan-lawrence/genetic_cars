@@ -17,14 +17,13 @@ public class CarGenerator : MonoBehaviour {
 		body = (GameObject) Instantiate (carBody, new Vector2 (5, 3), Quaternion.identity);
 		wheel1 = (GameObject) Instantiate (wheel, new Vector2 (0, 0), Quaternion.identity);
 		wheel2 = (GameObject) Instantiate (wheel, new Vector2 (0, 0), Quaternion.identity);
-
+		
+		body.transform.parent = transform;
 		wheel1.transform.parent = body.transform;
 		wheel2.transform.parent = body.transform;
 
 		//So we can avoid wonky physics in setup
 		body.rigidbody2D.isKinematic = true;
-
-		GetComponent<Follow> ().target = body;
 
 		genome = new Genome ();
 

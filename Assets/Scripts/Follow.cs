@@ -12,6 +12,7 @@ public class Follow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = target.transform.position - new Vector3(0,0,5);
+		if (target != null)
+			transform.position = target.transform.position - new Vector3(0,0,5);
 	}
 }
