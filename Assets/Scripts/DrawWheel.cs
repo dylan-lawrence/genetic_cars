@@ -60,4 +60,9 @@ public class DrawWheel : MonoBehaviour {
 
 		drawn = true;
 	}
+
+	public void Deactivate() {
+		myline.active = false;
+		spokes.active = false;
+	}
 }

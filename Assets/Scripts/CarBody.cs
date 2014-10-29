@@ -8,6 +8,8 @@ public class CarBody : MonoBehaviour {
 	VectorLine polyline;
 	
 	public bool finished = false;
+	private bool killable = false;
+	private bool killed = false;
 	
 	private static bool Less (Vector2 a, Vector2 b, Vector2 center) {
 		if (a.x - center.x >= 0 && b.x - center.x <= 0)
@@ -88,6 +90,11 @@ public class CarBody : MonoBehaviour {
 		return points;
 	}
 
+	public void SetColor (Color c) {
+		myline.SetColor (c);
+		polyline.SetColor (c);
+	}
+
 	// Use this for initialization
 	void Start () {
 		//Drawing Portion
@@ -136,11 +143,34 @@ public class CarBody : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (!killable && GetComponent<Rigidbody2D> ().velocity.magnitude < 0.01) {
+			killable = true;
+			StartCoroutine (KillScheduled ());
+		} else if (GetComponent<Rigidbody2D> ().velocity.magnitude > 0.01) {
+			killable = false;
+		}
 
+		if (killed) {
+			myline.active = false;
+			polyline.active = false;
+			foreach (DrawWheel w in GetComponentsInChildren<DrawWheel>())
+				w.Deactivate();
+			Destroy (gameObject);
+		}
 	}
 
 	void LateUpdate() {
 		myline.Draw3D ();
 		polyline.Draw3D ();
+	}
+
+	public bool IsAlive() {
+		return !killed;
+	}
+
+	IEnumerator KillScheduled() {
+		yield return new WaitForSeconds(3.0f);
+		if (killable)
+			killed = true;
 	}
 }
