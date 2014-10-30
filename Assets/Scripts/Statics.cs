@@ -4,8 +4,6 @@ using System.Collections;
 public class Statics {
 
 	public static bool Less (Vector2 a, Vector2 b, Vector2 center) {
-		Debug.Log ("Less compare");
-		Debug.Log ("a is " + a.ToString() + " b is " + b.ToString() + " center is " + center.ToString());
 		if (a.x - center.x >= 0 && b.x - center.x <= 0)
 			return true;
 		if (a.x - center.x < 0 && b.x - center.x >= 0)
@@ -29,9 +27,7 @@ public class Statics {
 	
 	public static Vector2[] CircleSort(Vector2[] list) {
 		Vector2[] output = (Vector2[]) list.Clone();
-		
-		Debug.Log ("Cloned output in circle sort");
-		
+
 		//Calculate center
 		float x = 0.0f;
 		float y = 0.0f;
@@ -41,8 +37,6 @@ public class Statics {
 		}
 		
 		Vector2 center = new Vector2 (x/list.Length, y/list.Length);
-		
-		Debug.Log ("Found center...");
 		
 		//Bubble because lazy...
 		

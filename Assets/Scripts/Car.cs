@@ -17,24 +17,29 @@ public class Car : MonoBehaviour {
 	private bool can_destroy = false;
 	
 	public void SetupCar (Genome g) {
-		Debug.Log ("Setting up car...");
 		Vector2[] points = new Vector2[6];
 		for (int i=0; i<12; i+=2) {
-			points[i/2] = new Vector2((Genome.GeneToInt(g[i]) - 127.5f)/(127.5f/1.5f),(Genome.GeneToInt(g[i+1]) - 127.5f)/(127.5f/1.5f));
+			points[i/2] = new Vector2((Genome.GeneToInt(g[i]) - 127.5f)/(127.5f) * 1.5f,(Genome.GeneToInt(g[i+1]) - 127.5f)/(127.5f) * 1.5f);
 		}
-		Debug.Log ("Created points...");
 		
 		GetComponent<PolygonCollider2D>().points = Statics.CircleSort(points);
-		
-		Debug.Log ("Circle sorted points...");
 		
 		WheelJoint2D[] wheels = GetComponents<WheelJoint2D>();
 		wheels [0].anchor = points [(int) Mathf.Round (Genome.GeneToInt(g [12]) / 255.0f)];
 		wheels [1].anchor = points [(int) Mathf.Round (Genome.GeneToInt(g [14]) / 255.0f)];
 		
 		CircleCollider2D[] circs = GetComponentsInChildren<CircleCollider2D>();
-		circs[0].radius = Genome.GeneToInt (g [13]) / 255.0f;
-		circs[1].radius = Genome.GeneToInt (g [15]) / 255.0f;
+		circs[0].radius = Genome.GeneToInt (g [13]) / (255.0f * 2.0f);
+		circs[1].radius = Genome.GeneToInt (g [15]) / (255.0f * 2.0f);
+
+		JointMotor2D motor1 = wheels [0].motor;
+		JointMotor2D motor2 = wheels [1].motor;
+
+		motor1.motorSpeed = -50 - Genome.GeneToInt (g [16]);
+		motor2.motorSpeed = -50 - Genome.GeneToInt (g [17]);
+
+		wheels [0].motor = motor1;
+		wheels [1].motor = motor2;
 	}
 	
 	public void SetupLines() {		

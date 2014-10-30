@@ -38,7 +38,13 @@ public class Genome {
 		for (int i = 0; i<length; i++)
 			_genome += RandomNucleotide();
 	}
-	
+
+	public void SetGenome (string g) {
+		if (g.Length % 4 != 0)
+			throw new System.Exception ("Genome length must be divisble by 4!");
+		_genome = g;
+	}
+
 	public void Mutate(float rate = 0.05f) {
 		string g = (string) _genome.Clone(); //deepcopy safety
 		_genome = "";
@@ -72,9 +78,30 @@ public class Genome {
 	public void GeneTrade (Genome other) {
 		int index1 = Random.Range(0, _genome.Length/4);
 		int index2 = Random.Range(0, _genome.Length/4);
-		string temp = this [index1];
-		this [index1] = other [index2];
+		string temp = (string) this [index1].Clone ();
+		this [index1] = (string) other [index2].Clone ();
 		other [index2] = temp;
+	}
+
+	public void Crossover (Genome other) {
+		Debug.Log ("Initial genomes\n" + this.ToString() + "\n" + other.ToString());
+		int index = Random.Range (0, _genome.Length / 4);
+		string new_genome1 = "";
+		string new_genome2 = "";
+
+		for (int i = 0; i < _genome.Length/4; i++) {
+			if (i < index) {
+				new_genome1 += this[i];
+				new_genome2 += other[i];
+			}
+			else {
+				new_genome1 += other[i];
+				new_genome2 += this[i];
+			}
+		}
+		SetGenome (new_genome1);
+		other.SetGenome (new_genome2);
+		Debug.Log ("Resultant genomes\n" + this.ToString() + "\n" + other.ToString());
 	}
 
 	//-- Consider Start to Exist only for debugging
