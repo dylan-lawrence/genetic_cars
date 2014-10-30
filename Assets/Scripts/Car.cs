@@ -14,13 +14,19 @@ public class Car : MonoBehaviour {
 	VectorLine wheel_two_circle;
 	VectorLine wheel_two_spokes;
 	
+	private bool can_destroy = false;
+	
 	public void SetupCar (Genome g) {
+		Debug.Log ("Setting up car...");
 		Vector2[] points = new Vector2[6];
 		for (int i=0; i<12; i+=2) {
 			points[i/2] = new Vector2((Genome.GeneToInt(g[i]) - 127.5f)/(127.5f/1.5f),(Genome.GeneToInt(g[i+1]) - 127.5f)/(127.5f/1.5f));
 		}
+		Debug.Log ("Created points...");
 		
-		GetComponent<PolygonCollider2D>().points = CarBody.CircleSort(points);
+		GetComponent<PolygonCollider2D>().points = Statics.CircleSort(points);
+		
+		Debug.Log ("Circle sorted points...");
 		
 		WheelJoint2D[] wheels = GetComponents<WheelJoint2D>();
 		wheels [0].anchor = points [(int) Mathf.Round (Genome.GeneToInt(g [12]) / 255.0f)];
@@ -34,7 +40,6 @@ public class Car : MonoBehaviour {
 	public void SetupLines() {		
 		//Body outline
 		int poly_points = GetComponent<PolygonCollider2D>().points.Length;
-		Debug.Log (poly_points);
 		
 		Vector3[] p1 = new Vector3[poly_points + 1];
 		body_outline = new VectorLine("Body", p1, null, 3.0f, LineType.Continuous, Joins.Fill);
@@ -113,12 +118,29 @@ public class Car : MonoBehaviour {
 	}
 	
 	public void ClearLines() {
-		body_outline.active = false;
-		body_inner.active = false;
-		wheel_one_circle.active = false;
-		wheel_one_spokes.active = false;
-		wheel_two_circle.active = false;
-		wheel_two_spokes.active = false;
+		VectorLine.Destroy(ref body_outline);
+		VectorLine.Destroy(ref body_inner);
+		VectorLine.Destroy(ref wheel_one_circle);
+		VectorLine.Destroy(ref wheel_one_spokes);
+		VectorLine.Destroy(ref wheel_two_circle);
+		VectorLine.Destroy(ref wheel_two_spokes);
+	}
+	
+	public void ScheduleDestroy() {
+		can_destroy = true;
+		StartCoroutine (Kill());
+	}
+	
+	public void CancelDestroy() {
+		can_destroy = false;
+	}
+	
+	IEnumerator Kill() {
+		yield return new WaitForSeconds(3.0f);
+		if (can_destroy) {
+			ClearLines();
+			Destroy (gameObject);
+		}
 	}
 	
 	void Start() {

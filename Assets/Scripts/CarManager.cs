@@ -10,13 +10,23 @@ public class CarManager : MonoBehaviour {
 	private Genome[] genomes;
 	private GameObject[] cars;
 	
+	private bool spawning = false;
+	
 	void CreateGeneration() {
+		/* Debug.Log ("Spawning new generation!");
+		genomes[0].GeneTrade(genomes[1]);
+		Debug.Log ("Swapped 1 and 2");
+		genomes[2].GeneTrade(genomes[3]);
+		Debug.Log ("Swapped 3 and 4"); */
+	
 		for (int i=0; i<num_cars; i++) {
-			cars[0] = (GameObject) Instantiate (car, new Vector3 (2,2,0), Quaternion.identity);
-			cars[0].GetComponent<Car>().SetupCar(genomes[i]);
-			cars[0].GetComponent<Car>().car_color = car_colors[i % car_colors.Length];
-			cars[0].GetComponent<Car>().SetupLines();
+			cars[i] = (GameObject) Instantiate (car, new Vector3 (2,2,0), Quaternion.identity);
+			cars[i].GetComponent<Car>().SetupCar(genomes[i]);
+			cars[i].GetComponent<Car>().car_color = car_colors[i % car_colors.Length];
+			cars[i].GetComponent<Car>().SetupLines();
 		}
+		
+		spawning = false;
 	}
 	
 	// Use this for initialization
@@ -25,12 +35,16 @@ public class CarManager : MonoBehaviour {
 		for (int i=0; i<num_cars; i++) {
 			genomes[i] = new Genome();
 			genomes[i].GenerateGenome(64);
+			Debug.Log (genomes[i].ToString());
 		}
 		
 		cars = new GameObject[num_cars];	
 		for (int i=0; i<num_cars; i++) {
+			Debug.Log("Making car " + i);
 			cars[i] = (GameObject) Instantiate (car, new Vector3 (2,2,0), Quaternion.identity);
+			Debug.Log("Made car " + i);
 			cars[i].GetComponent<Car>().SetupCar(genomes[i]);
+			Debug.Log("Setup car " + i);
 			cars[i].GetComponent<Car>().car_color = car_colors[i % car_colors.Length];
 			cars[i].GetComponent<Car>().SetupLines();
 		}			
@@ -38,10 +52,24 @@ public class CarManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		foreach (GameObject g in cars) {
-			if (g != null && g.GetComponent<Rigidbody2D>().velocity.magnitude < 0.01f) {
-				g.GetComponent<Car>().ClearLines();
-				Destroy (g);
+		if (!spawning) {
+			bool spawn_new = true;
+			foreach (GameObject g in cars) {
+				if (g != null && g.GetComponent<Rigidbody2D>().velocity.magnitude < 0.01f) {
+					g.GetComponent<Car>().ScheduleDestroy();
+				}
+				else if (g != null) {
+					g.GetComponent<Car>().CancelDestroy();
+				}
+				
+				if (g != null)
+					spawn_new = false;	
+			}
+			
+			if (spawn_new) {
+				Debug.Log ("All cars destroyed!");
+				spawning = true;
+				CreateGeneration();
 			}
 		}
 	}
