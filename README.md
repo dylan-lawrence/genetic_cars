@@ -9,24 +9,9 @@ The cars themselves are designed very simply with a body and two wheels. Each ca
 The wheels are centered on two vertices. Due to randomized gene the wheels could theoretically be placed on the same vertex.
 
 ##### Genome Basics
-The Genome we will be using consists of four *nucleotides* that are then mapped to numbers and converted. These mappings are
-* A -> 0
-* T -> 1
-* C -> 2
-* G -> 3
+TODO
 
-We consider a *gene* to be a sequence of four letters **i.e. ATTC** This gene is converted first to a sequence of numbers and then to a final number.
-
-<b> ATTC -> 0112 -> [0 x 4<sup>3</sup> + 1 x 4<sup>2</sup> + 1 x 4<sup>1</sup> + 2 x 4<sup>0</sup>] -> [0 + 16 + 4 + 2] -> 22 </b>
-
-Genes rage in values from AAAA to GGGG or 0 to 255. This gives us an easy way to use genes inside of the car without too much overhead.
-
-#####Genome Specification
-The genome is specified in terms of genes as discussed above. This is facilitated with a Genome object that is able to index each gene. We will call these indices *loci*.
-
-The first twelve loci (indices 0 - 11) specify the six coordinates of the the car polygon shape. These are reordered based on the specified CircleSort algorithm.
-
-Following this the wheels are specifief. Loci 12 (assuming starting count at 0) specifies which polygon point to place the first wheel. Loci 13 specifies this wheels radius. Locis 14 and 15 then specify the second wheel.
+Note: Genome will transition to a binary representation to help with simplicity
 
 **The Following Are Examples of Generated Cars**
 
