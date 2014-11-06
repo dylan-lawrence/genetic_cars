@@ -30,6 +30,13 @@ public class Genome {
 	public static string RandomNucleotide() {
 		return Nucleotides[Random.Range (0, 4)];
 	}
+
+	public static string RandomGene() {
+		string g = "";
+		for (int i = 0; i < 4; i++)
+			g += RandomNucleotide ();
+		return g;
+	}
 	
 	public void GenerateGenome(int length) {
 		if (length % 4 != 0)
@@ -42,7 +49,7 @@ public class Genome {
 	public void SetGenome (string g) {
 		if (g.Length % 4 != 0)
 			throw new System.Exception ("Genome length must be divisble by 4!");
-		_genome = g;
+		_genome = (string) g.Clone ();
 	}
 
 	public void Mutate(float rate = 0.05f) {
@@ -55,6 +62,17 @@ public class Genome {
 			else
 				_genome += g[i];
 		}
+	}
+
+	public void MutateGene (float rate = 0.05f) {
+		string g = "";
+		for (int i = 0; i<_genome.Length/4; i++) {
+			if (Random.Range(0.0f, 1.0f) < 0.05f)
+				g += RandomGene();
+			else
+				g += this[i];
+		}
+		_genome = g;
 	}
 
 	public string this[int i] {
@@ -83,7 +101,7 @@ public class Genome {
 		other [index2] = temp;
 	}
 
-	public void Crossover (Genome other) {
+	public void CrossoverRandom (Genome other) {
 		Debug.Log ("Initial genomes\n" + this.ToString() + "\n" + other.ToString());
 		int index = Random.Range (0, _genome.Length / 4);
 		string new_genome1 = "";
@@ -102,6 +120,26 @@ public class Genome {
 		SetGenome (new_genome1);
 		other.SetGenome (new_genome2);
 		Debug.Log ("Resultant genomes\n" + this.ToString() + "\n" + other.ToString());
+	}
+
+	public void CrossoverBodyWheels(Genome other) {
+		int index = 11; 
+
+		string new_genome1 = "";
+		string new_genome2 = "";
+		
+		for (int i = 0; i < _genome.Length/4; i++) {
+			if (i < index) {
+				new_genome1 += this[i];
+				new_genome2 += other[i];
+			}
+			else {
+				new_genome1 += other[i];
+				new_genome2 += this[i];
+			}
+		}
+		SetGenome (new_genome1);
+		other.SetGenome (new_genome2);
 	}
 
 	//-- Consider Start to Exist only for debugging

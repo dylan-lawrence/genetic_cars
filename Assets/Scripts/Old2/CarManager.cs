@@ -16,9 +16,12 @@ public class CarManager : MonoBehaviour {
 	private bool spawning = false;
 	
 	void CreateGeneration() {
-		genomes [0].Crossover (genomes [1]);
-	
+
+		genomes [0].CrossoverBodyWheels (genomes [1]);
+
 		for (int i=0; i<num_cars; i++) {
+			Debug.Log (genomes[i].ToString ());
+
 			cars[i] = (GameObject) Instantiate (car, new Vector3 (2,2,0), Quaternion.identity);
 			cars[i].GetComponent<Car>().SetupCar(genomes[i]);
 			cars[i].GetComponent<Car>().car_color = car_colors[i % car_colors.Length];
