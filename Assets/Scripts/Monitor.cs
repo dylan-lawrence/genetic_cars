@@ -9,32 +9,47 @@ public class Monitor : MonoBehaviour {
 	//and handles crossovers or other combinations
 
 	public GameObject CarObj;
+	public int no_cars;
+	public Color[] colors;
+
+	private BinaryGenome[] genomes;
+	private GameObject[] cars;
+	private float[] fitness;
 
 	// Use this for initialization
 	void Start () {
-		List<BinaryGenome> genomes = new List<BinaryGenome> ();
-		genomes.Add (new BinaryGenome (5, 8, Color.red));
-		genomes.Add (new BinaryGenome (5, 8, Color.yellow));
-		genomes.Add (new BinaryGenome (5, 8, Color.blue));
-		genomes.Add (new BinaryGenome (5, 8, Color.green));
-		genomes.Add (new BinaryGenome (5, 8, Color.black));
-
-		for (int i = 0; i<10; i++) {
-			GenomeTester.Shuffle(genomes);
-			genomes[0].RandomCrossover(genomes[1]);
+		genomes = new BinaryGenome[no_cars];
+		cars = new GameObject[no_cars];
+		fitness = new float[no_cars];
+		for (int i = 0; i < no_cars; i++) {
+			genomes[i] = new BinaryGenome(9, 8, colors[i % colors.Length]);
+			cars[i] = (GameObject) Instantiate(CarObj, new Vector3(2, 6, 0), Quaternion.identity);
+			cars[i].GetComponent<BinaryCar>().BuildCar(genomes[i]);
 		}
-
-		Debug.Log (genomes[0]);
-
-		GameObject obj = (GameObject) Instantiate (CarObj, new Vector3 (2, 2, 0), Quaternion.identity);
-		obj.GetComponent<BinaryCar> ().BuildCar (genomes[0]);
-
-		StartCoroutine(DestroyCar(obj.GetComponent<BinaryCar>()));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		bool all_destroyed = true;
+		foreach (GameObject g in cars) {
+			if (g == null) {
+
+			}
+			else {
+				all_destroyed = false;
+
+				if (g.rigidbody2D.velocity.magnitude < 0.05f) {
+					g.GetComponent<BinaryCar>().ScheduleDestroy();
+				}
+				else {
+					g.GetComponent<BinaryCar>().CancelDestroy();
+				}
+			}
+		}
+		if (all_destroyed) {
+			//Handle next generation
+			Debug.Log ("All dead!");
+		}
 	}
 
 	IEnumerator DestroyCar (BinaryCar car) {

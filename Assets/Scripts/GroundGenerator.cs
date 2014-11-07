@@ -6,13 +6,13 @@ public class GroundGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Vector3[] p = new Vector3[1000];
+		Vector3[] p = new Vector3[5000];
 
-		Vector3 curr = Vector3.zero;
-		for (int i = 0; i < 1000; i++) {
+		Vector3 curr = new Vector3 (-50, 0, 0);
+		for (int i = 0; i < 5000; i++) {
 			p[i] = curr;
-			if (i > 20)
-				curr += new Vector3(1, Random.Range (-0.5f, 0.5f));
+			if (i > 50)
+				curr += new Vector3(1, Random.Range (-1.0f, 1.0f));
 			else
 				curr += Vector3.right;
 		}
