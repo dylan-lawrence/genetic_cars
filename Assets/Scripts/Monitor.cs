@@ -16,6 +16,20 @@ public class Monitor : MonoBehaviour {
 	private GameObject[] cars;
 	private float[] fitness;
 
+	private bool building_cars = false;
+
+	public void ShuffleGenomes (BinaryGenome[] list) {
+		System.Random rng = new System.Random ();
+		int n = list.Length;
+		while (n > 1) {
+			n--;
+			int k = rng.Next(n+1);
+			BinaryGenome temp = list[k];
+			list[k] = list[n];
+			list[n] = temp;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		genomes = new BinaryGenome[no_cars];
@@ -30,26 +44,60 @@ public class Monitor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		bool all_destroyed = true;
-		foreach (GameObject g in cars) {
-			if (g == null) {
+		if (!building_cars) {
+			bool all_destroyed = true;
+			for (int i = 0; i < no_cars; i++) {
+					if (cars [i] == null) {
 
+					} else {
+							all_destroyed = false;
+
+							fitness [i] = cars [i].transform.position.x;
+							
+							if (cars[i].transform.position.y < -500)
+								cars[i].GetComponent<BinaryCar>().CarDestroy();
+
+							if (cars [i].rigidbody2D.velocity.magnitude < 0.30f) {
+									cars [i].GetComponent<BinaryCar> ().ScheduleDestroy ();
+							} else {
+									cars [i].GetComponent<BinaryCar> ().CancelDestroy ();
+							}
+					}
 			}
-			else {
-				all_destroyed = false;
+			int curr_furthest_index = 0;
+			for (int i = 0; i < no_cars; i++) {
+				if (cars[i] != null) {
+					if (fitness[i] > fitness[curr_furthest_index]) {
+						curr_furthest_index = i;
+					}
+				}
+			}
+			while (cars[curr_furthest_index % cars.Length] == null) { //safety measure
+				if (curr_furthest_index > cars.Length * 3)
+					break;
+				curr_furthest_index++;
+			}
 
-				if (g.rigidbody2D.velocity.magnitude < 0.05f) {
-					g.GetComponent<BinaryCar>().ScheduleDestroy();
-				}
-				else {
-					g.GetComponent<BinaryCar>().CancelDestroy();
-				}
+			if (cars[curr_furthest_index % cars.Length] != null)
+				Camera.main.transform.position = new Vector3(cars[curr_furthest_index % cars.Length].transform.position.x,cars[curr_furthest_index % cars.Length].transform.position.y,-10);
+
+			if (all_destroyed) {
+				//Handle next generation
+				building_cars = true;
+				CreateNewGeneration ();
 			}
 		}
-		if (all_destroyed) {
-			//Handle next generation
-			Debug.Log ("All dead!");
+	}
+
+	void CreateNewGeneration() {
+		ShuffleGenomes (genomes);
+		for (int i = 0; i < no_cars; i+=2)
+			genomes [i].RandomCrossover (genomes [i + 1]);
+		for (int i = 0; i < no_cars; i++) {
+			cars[i] = (GameObject) Instantiate(CarObj, new Vector3(2, 6, 0), Quaternion.identity);
+			cars[i].GetComponent<BinaryCar>().BuildCar(genomes[i]);
 		}
+		building_cars = false;
 	}
 
 	IEnumerator DestroyCar (BinaryCar car) {

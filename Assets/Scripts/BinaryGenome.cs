@@ -44,4 +44,11 @@ public class BinaryGenome {
 			other[i] = temp;
 		}
 	}
+
+	public BinaryGenome Copy() {
+		BinaryGenome newGenome = new BinaryGenome (Length, this [0].gene.Length);
+		for (int i = 0; i<Length; i++)
+			newGenome [i] = this [i].Copy ();
+		return newGenome;
+	}
 }

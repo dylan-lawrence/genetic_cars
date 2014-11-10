@@ -4,22 +4,25 @@ using Vectrosity;
 
 public class GroundGenerator : MonoBehaviour {
 
+	public PhysicsMaterial2D mat;
+
 	// Use this for initialization
 	void Start () {
-		Vector3[] p = new Vector3[5000];
+		Vector3[] po = new Vector3[5000];
+		Vector3[] p = new Vector3[2500];
 
-		Vector3 curr = new Vector3 (-50, 0, 0);
-		for (int i = 0; i < 5000; i++) {
+		Vector3 curr = new Vector3 (-10, 0, 0);
+		for (int i = 0; i < 2500; i++) {
 			p[i] = curr;
-			if (i > 50)
-				curr += new Vector3(1, Random.Range (-1.0f, 1.0f));
-			else
-				curr += Vector3.right;
+			curr += new Vector3(1.65f, Random.Range (-1.0f, 1.0f));
 		}
 
-		VectorLine myline = new VectorLine ("ground", p, null, 5.0f, LineType.Continuous, Joins.Fill);
+		VectorLine myline = new VectorLine ("ground", po, null, 5.0f, LineType.Continuous, Joins.Fill);
+
+		myline.MakeSpline (p);
 
 		myline.SetColor (Color.green);
+		myline.physicsMaterial = mat;
 		myline.collider = true;
 		myline.Draw3D ();
 	}

@@ -33,4 +33,10 @@ public class BinaryGene {
 
 		return "<color=" + col + ">" + _gene + "</color>";
 	}
+
+	public BinaryGene Copy() {
+		BinaryGene g = new BinaryGene (_length, _color);
+		g._gene = (string) _gene.Clone ();
+		return g;
+	}
 }

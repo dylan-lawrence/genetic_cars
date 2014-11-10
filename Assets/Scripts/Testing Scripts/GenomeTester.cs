@@ -26,40 +26,15 @@ public class GenomeTester : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		List<BinaryGenome> genomes = new List<BinaryGenome>();
-		for (int i = 0; i < no_of_genomes; i+=2) {
-			genomes.Add (new BinaryGenome (genome_length, gene_size, colors [i % colors.Length]));
-			genomes.Add (new BinaryGenome (genome_length, gene_size, colors [i % colors.Length]));
-		}
-		for (int i = 0; i < no_of_crossovers; i++) {
-			for (int j = 0; j < no_of_genomes-1; j+=2)
-				genomes[j].RandomCrossover(genomes[j+1]);
-			Shuffle (genomes);
-		}
-		for (int i = 0; i < no_of_genomes; i++)
-			Debug.Log (genomes [i]);
+		BinaryGenome g1 = new BinaryGenome (4, 4, Color.red);
+		BinaryGenome g2 = new BinaryGenome (4, 4, Color.blue);
 
-		//Test drawing out genome[0]
-		Vector2[] points = new Vector2[genomes[0].Length/2];
-		for (int i = 0; i < genomes[0].Length; i+=2)
-			points[i/2] = new Vector2(System.Convert.ToInt32(genomes[0][i].gene,2),System.Convert.ToInt32(genomes[0][i+1].gene,2));
+		BinaryGenome temp = g1.Copy(); //this is a shallow copy...
 
-		points = Statics.CircleSort (points);
+		temp.RandomCrossover (g2);
 
-		Vector3[] p = new Vector3[genomes [0].Length / 2 + 1];
-		for (int i = 0; i < genomes[0].Length/2; i++)
-			p [i] = (Vector3)points [i];
-		p [genomes [0].Length / 2] = (Vector3)points [0];
-
-		VectorLine line = new VectorLine ("line", p, null, 100.0f, LineType.Continuous, Joins.Fill);
-		line.smoothColor = true;
-
-		Color[] cols = new Color[genomes[0].Length/2];
-		for (int i = 0; i < genomes[0].Length/2; i++)
-			cols [i] = genomes [0] [i].color;
-
-		line.SetColors (cols);
-
-		line.Draw3DAuto ();
+		Debug.Log (g1);
+		Debug.Log (g2);
+		Debug.Log (temp);
 	}
 }

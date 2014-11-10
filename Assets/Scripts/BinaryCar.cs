@@ -55,7 +55,7 @@ public class BinaryCar : MonoBehaviour {
 
 		//Wheel 1
 		joints[0].anchor = points[System.Convert.ToInt32(genome[5].gene,2) % 5];
-		wheels[0].radius = System.Convert.ToInt32(genome[6].gene, 2)/72.0f;
+		wheels[0].radius = System.Convert.ToInt32(genome[6].gene, 2)/100.0f;
 
 		wheel_one = new VectorLine("wheel_one", new Vector3[25], null, 2.0f, LineType.Continuous, Joins.Fill);
 		wheel_one.MakeCircle(wheels[0].center, wheels[0].radius);
@@ -73,7 +73,7 @@ public class BinaryCar : MonoBehaviour {
 
 		//Wheel 2
 		joints[1].anchor = points[System.Convert.ToInt32(genome[7].gene,2) % 5];
-		wheels[1].radius = System.Convert.ToInt32(genome[8].gene, 2)/72.0f;
+		wheels[1].radius = System.Convert.ToInt32(genome[8].gene, 2)/100.0f;
 
 		wheel_two = new VectorLine("wheel_two", new Vector3[25], null, 2.0f, LineType.Continuous, Joins.Fill);
 		wheel_two.MakeCircle(wheels[1].center, wheels[1].radius);
